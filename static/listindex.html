@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    /* footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+    } */
+</style>
+<body>
+    <header>
+        <h1>模範解答リスト</h1>
+    </header>
+    <main>
+        <a href='./'>通常の解析はこちら</a><br>
+        <button onclick="list()">模範解答一覧表示/更新</button>
+        <textarea id="normalTextarea" style="display:none;"></textarea>
+        <div class="res" id="responseText"></div><br>
+        <!-- <footer>
+            <p>Kagawa Univ &copy; 2023 | Ryoto Ogata - Kagawa lab</p>
+        </footer> -->
+    </main>
+    <script>
+        function list() {
+            var inputtext = document.getElementById("normalTextarea").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "", true);
+            xhr.setRequestHeader("Content-Type", "text/plain");
+            xhr.send(inputtext);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const responseText = xhr.responseText;
+                    document.getElementById("responseText").innerHTML += responseText;
+                }
+            };
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

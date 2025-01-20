@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プログラミング初学者向けコード解析システム チュートリアル</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    .tutorial-container { max-width: 800px; margin: auto; padding: 20px; }
+    .section { margin-bottom: 30px; }
+    .highlight { background-color: #f7f7b6; padding: 4px; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="tutorial-container">
+  <h1>コード解析システム チュートリアル</h1>
+
+  <div class="section" id="introduction">
+    <h2>1. システム概要</h2>
+    <a href='./'>解析ぺージ</a>
+    <p>このシステムは、プログラミング初学者が自身のC言語コードを入力し、問題箇所を把握するためのサポートを行います。コード内の誤りや改善点をハイライトし、コードの制御フローをグラフ上に描画することで理解を深める助けとなります。</p>
+  </div>
+
+  <div class="section" id="input-code">
+    <h2>2. コード入力</h2>
+    <p>入力フォームに自分が記述したC言語コードを入力してください。</p>
+    <!-- <img src="tuto1.png"> -->
+  </div>
+
+  <div class="section" id="understanding-results">
+    <h2>3. 解析結果の確認</h2>
+    <p>コードを入力し解析を実行すると、問題がある箇所が<span class="highlight">ハイライト表示</span>されます。<br>横のリストで問題箇所の行番号と内容が確認できます。また、コード内に含まれる要素の数についても確認することができます。問題文に指示がある場合はそちらに沿うように注意してください。</p>
+    <p>入力したソースコードの制御フローグラフを確認することができます。コードの解析が行われた後、「グラフを表示/更新」と書かれてあるボタンを押すとコードの制御構造が視覚化されたグラフが描画されます。</p>
+    <p>解析できないコードです　と表示されることがあります。その場合は本システムで解析を行うのではなく、コンパイルをしてコードが正誤にかかわらず動作することを確認してください。</p>
+  </div>
+
+  <div class="section" id="error-details">
+    <h2>4. 問題点の詳細</h2>
+    <p>解析結果に表示されるエラーや警告について、各行番号とともに内容を確認できます。</p>
+    <p class="highlight">例: ６行目 インデントをスペース４個分追加してください</p>
+  </div>
+
+  <div class="section" id="using-feedback">
+    <h2>5. フィードバックの活用</h2>
+    <p>フィードバック内容に基づき、コードの問題点を改善してください。<br>ハイライトされた箇所を見直し、エラーメッセージに基づいて修正を行います。</p>
+  </div>
+
+  <div class="section" id="compare-code">
+    <h2>6. 模範解答との比較</h2>
+    <p>このシステムには、自分のコードを解析するモードと、模範解答との比較を行うモードがあります。「模範解答との比較はこちら」のリンクから、比較したい模範解答のファイル名リンクを探してください。同様に解析を行った後、自分のグラフと模範解答のグラフを両方表示することができます。模範解答のグラフには詳しい情報は描画されていませんが、自分のコードをより簡潔な形に記述するための参考としてください。</p>
+  </div>
+
+  <div class="section" id="can-find">
+    <h2>7. 調査可能な項目</h2>
+    <p>本システムで調査可能なエラーは以下の通りです。</p>
+    <p>　ブレース内のインデント</p>
+    <p>　printf、scanfのパラメタミス</p>
+    <p>　if文の条件式設定</p>
+    <p>　for文の定義ミス</p>
+    <p>　関数名の重複</p>
+    <p>　int型関数のreturn忘れ</p><br>
+    <p>本システムで調査可能な制御構造は以下の通りです。</p>
+    <p>　if文</p>
+    <p>　for文</p>
+    <p>　while文</p>
+    <p>　do while文</p><br>
+    <p>制御構造以外にも以下のものはグラフに描画されます。</p>
+    <p>　関数名</p>
+    <p>　printf</p>
+  </div>
+</div>
+
+</body>
+</html>

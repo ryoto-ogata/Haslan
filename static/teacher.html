@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入力フォーム</title>
+</head>
+<body>
+    <h1>模範解答入力フォーム</h1>
+    <a href='./'>解析</a>
+    <form action="/submit" method="post">
+        <label for="filename">ファイル名:</label><br>
+        <input type="text" id="filename" name="filename">
+        <br><br>
+        <label for="sourcecode">ソースコード:</label><br>
+        <textarea id="sourcecode" name="sourcecode" rows="30" cols="50" spellcheck="false"></textarea>
+        <br><br>
+        <button type="button" onclick="submitText()">入力</button>
+    </form>
+    <h2>入力済み</h2>
+    <div class="res" id="responseTextarea"></div><br>
+    <!-- <h2>ファイルリスト</h2>
+    <div id="fileList"></div><br> -->
+
+    <script>
+        function submitText() {
+            var inputname = document.getElementById("filename").value;
+            var inputcode = document.getElementById("sourcecode").value;
+            var filecode = inputname + "@@@" + inputcode;
+            var inputtex = filecode.replace(/\/\*([^*]|\*[^\/])*\*\//g,"");
+            var inputCode = inputtex.replace(/\/\/.*/g,"");
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "", true);
+            xhr.setRequestHeader("Content-Type", "text/plain");
+            xhr.send(inputCode);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const responseText = xhr.responseText;
+                    const parts = responseText.split('@@@@@');
+                    // const enterfile = parts[0];
+                    document.getElementById("responseTextarea").innerHTML = '';
+                    document.getElementById("responseTextarea").innerHTML += parts[0];
+                    document.getElementById("fileList").innerHTML = '';
+                    document.getElementById("fileList").innerHTML = parts[1];
+                }
+                // alert('入力されました');
+            };
+        }
+        function showFileContent(filePath) {
+            var element = document.getElementById(filePath);
+            if (element) {
+                if (element.style.display === "none") {
+                    element.style.display = "block";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

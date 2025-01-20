@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>トップニュース</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>トップニュース</h1>
+
+<ul id="newsList">
+    <li>ニュース1: これはサンプルニュース1です。</li>
+    <li>ニュース2: これはサンプルニュース2です。</li>
+    <li>ニュース3: これはサンプルニュース3です。</li>
+    <li class="hidden">ニュース4: これはサンプルニュース4です。</li>
+    <li class="hidden">ニュース5: これはサンプルニュース5です。</li>
+    <!-- 追加のニュースをここに追加 -->
+</ul>
+
+<button onclick="toggleNews()">続きを表示</button>
+
+<script>
+    function toggleNews() {
+        var hiddenNews = document.querySelectorAll('#newsList li.hidden');
+
+        hiddenNews.forEach(function (item) {
+            item.style.display = (item.style.display === 'none' || item.style.display === '') ? 'list-item' : 'none';
+        });
+    }
+</script>
+
+</body>
+</html>

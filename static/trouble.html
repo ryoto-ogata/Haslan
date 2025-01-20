@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+    <title>C解析システム</title>
+    <style type='text/css'>
+        body {
+            /* font-family:monospace, serif; */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .main{
+            display:flex;
+            flex: 1;
+        }
+        main{
+            flex: 1;
+        }
+        .res{
+            padding-left: 20px;
+        }
+        .contentA{
+            width:70%;
+            height:auto;
+            font-family:monospace, serif;
+        }
+        .contentB{
+            width:auto;
+            flex: 1;
+            height:auto;
+            font-family:monospace, serif;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #555;
+            padding: 10px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+        }
+        nav p {
+            color: #fff;
+            text-decoration: none;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+        .editor-container{
+            margin: 20px;
+            max-width: 800px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        textarea {
+            width: 100px;
+            height: 80px;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1;
+            overflow-y: scroll;
+            min-width: 10px;
+        }
+        .CodeMirror{
+            width: 500px;
+            height: 450px;
+            font-family: monospace;
+            font-size: 20px;
+        }
+
+        .textarea-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .background-div {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            background-color: lightgray;
+        }
+
+        .highlighted-line {
+            background-color: yellow;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #000;
+            z-index: 2;
+            max-width: 80%;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>不具合報告</h1>
+    </header>
+    <nav>
+        <a href='/'>解析</a>
+        <p><span onclick="showModal()">利用方法</span></p>
+        <!-- <p><span onclick="showModal()"></span></p> -->
+        <p><span onclick="showModal2()">調査可能な項目</span></p>
+        <!-- <a href='question'><s>アンケート</s></a> -->
+        <!-- <a href='question'>アンケート</a> -->
+        <a href=''>不具合報告</a>
+        <!-- <a href='trouble'>不具合報告</a> -->
+    </nav>
+    <br><strong>
+    <p>不具合が見つかった場合、以下のフォームから送信してください。</p>
+    <!-- <p>コードのファイルと、不具合の内容を入力してください。</p> -->
+    <p>セキュリティ・不正対策のためMicrosoftのログインが求められますが、</p>
+    <p>個人情報を利用することはありません。</p>
+    </strong>
+    <main>
+        <br>
+        <a href="https://forms.office.com/r/CJXTHy60Td">不具合報告フォーム</a><br>
+        <br>
+        <h3>現在分かっている不具合</h3>
+        <ul id="newsList">
+            <li>returnで変数を返す時正しく判定されない</li>
+            <li>不具合２</li>
+            <li>不具合３</li>
+            <li class="hidden">不具合４</li>
+            <li class="hidden">不具合５</li>
+            <li class="hidden">不具合６</li>
+        </ul>
+        <button onclick="toggleNews()">さらに表示</button>
+    </main>
+    <div id="myModal" class="modal">
+        <p>このシステムはC言語のソースコードを解析し、</p>
+        <p>主にコンパイラでは検出できないミスを確認するものです。</p><br>
+        <p>コード入力部分にソースコードをペーストし、</p>
+        <p>下のCHECKボタンを押すことで解析が行われ</p>
+        <p>画面右側に結果が表示されます。</p>
+        <p>入力されたソースコードの誤っている箇所は</p>
+        <p>黄色でハイライトされます。</p><br>
+        <p>本システムで調査できるソースコードは</p>
+        <p>ある程度C言語のコードとして成り立っているものに限ります。</p>
+        <p>コンパイラでの実行はできるが実行結果が想定していたものと</p>
+        <p>異なっている場合などに、間違っている場所を</p>
+        <p>探す参考として利用してください。</p><br>
+        <p>インデントミスの調査は、講義内で定められている</p>
+        <p>インデントの方法に則っています。</p>
+        <a href='https://guppy.eng.kagawa-u.ac.jp/2023/Programming/indentation.html'>インデンテーションについての約束事</a>
+        <p>if文やfor文等にはブレース{}を付けてください。</p>
+        <p>switch内のcaseによる少ないインデントには対応していません。</p><br>
+        <p>試運転中のため、問題があれば</p>
+        <p>不具合報告に投げてくれるとありがたいです。(実装途中)</p><br>
+        <button onclick="closeModal()">閉じる</button>
+    </div>
+    <div id="myModal2" class="modal">
+        <p>現状調査可能な項目</p><br>
+        <p>ブレース内のインデント</p>
+        <p>printf、scanfのパラメタミス</p>
+        <p>if文の条件式設定</p>
+        <p>for文の定義ミス</p>
+        <p>関数名の重複</p>
+        <p>int型関数のreturn忘れ</p><br>
+        <button onclick="closeModal2()">閉じる</button>
+    </div>
+    <footer>
+        <p>Kagawa Univ &copy; 2023 | Ryoto Ogata - Kagawa lab</p>
+    </footer>
+
+    <script>
+
+        function showModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+        }
+        function showModal2() {
+            var modal = document.getElementById('myModal2');
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'none';
+        }
+        function closeModal2() {
+            var modal = document.getElementById('myModal2');
+            modal.style.display = 'none';
+        }
+
+        function toggleNews() {
+        var hiddenNews = document.querySelectorAll('#newsList li.hidden');
+
+        hiddenNews.forEach(function (item) {
+            item.style.display = (item.style.display === 'none' || item.style.display === '') ? 'list-item' : 'none';
+        });
+    }
+    </script>
+</body>
+</html>

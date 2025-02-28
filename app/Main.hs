@@ -116,7 +116,7 @@ app request respond = do
             -- mai (LBS.unpack body)
             respond $ responseLBS status200 [("Content-Type", "text/plain")] restext
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/index.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/index.html" Nothing
 
 listapp :: Application
 listapp request respond = do
@@ -129,7 +129,7 @@ listapp request respond = do
                 htmlContent = "<html><body>" ++ Data.List.concat fileLinks ++ "</body></html>"
             respond $ responseLBS status200 [("Content-Type", "text/plain")] (LBS.fromStrict (encodeUtf8 (Data.Text.pack htmlContent)))
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/listindex.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/listindex.html" Nothing
 
 compareapp :: Application
 compareapp request respond = do
@@ -149,7 +149,7 @@ compareapp request respond = do
             -- mai (LBS.unpack body)
             respond $ responseLBS status200 [("Content-Type", "text/plain")] restext
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/indexs.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/indexs.html" Nothing
 
 tesma :: String -> IO()
 tesma source = do
@@ -170,7 +170,7 @@ tutorial request respond = do
             -- let restext = LBS.fromStrict (encodeUtf8 (Data.Text.pack (mai2 res)))
             respond $ responseLBS status200 [("Content-Type", "text/plain")] body
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/tutorial.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/tutorial.html" Nothing
 
 trouble2 :: Application
 trouble2 request respond = do
@@ -195,7 +195,7 @@ trouble request respond = do
             -- let restext = LBS.fromStrict (encodeUtf8 (Data.Text.pack (mai2 res)))
             respond $ responseLBS status200 [("Content-Type", "text/plain")] body
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/indexs.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/indexs.html" Nothing
 
 teacher :: Application
 teacher request respond = do

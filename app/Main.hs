@@ -116,7 +116,7 @@ app request respond = do
             -- mai (LBS.unpack body)
             respond $ responseLBS status200 [("Content-Type", "text/plain")] restext
         _ -> do
-            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "haslan/index.html" Nothing
+            respond $ Wai.responseFile HType.status200 [("Content-Type","text/html")] "static/index.html" Nothing
 
 listapp :: Application
 listapp request respond = do
